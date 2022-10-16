@@ -146,6 +146,12 @@ public class BST {
 
     private void preorderHelper(Node current) {
         // recursively preorder the BST
+        if (current == null) {
+            return;
+        } //if
+        System.out.println(current.key);
+        preorderHelper(current.leftChild);
+        preorderHelper(current.rightChild);
     } // preorderHelper
 
     public void postorder() {
@@ -155,6 +161,12 @@ public class BST {
 
     private void postorderHelper(Node current) {
         // recursively postorder the BST
+        if (current == null) {
+            return;
+        } //if
+        postorderHelper(current.leftChild);
+        postorderHelper(current.rightChild);
+        System.out.println(current.key);
     } // postorderHelper
 
     public void inorder() {
@@ -164,6 +176,12 @@ public class BST {
 
     private void inorderHelper(Node current) {
         // recursively inorder the BST
+        if (current == null) {
+            return;
+        } //if
+        inorderHelper(current.leftChild);
+        System.out.println(current.key);
+        inorderHelper(current.rightChild);
     } // inorderHelper
 
 } // BST
