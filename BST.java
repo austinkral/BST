@@ -73,10 +73,27 @@ public class BST {
         return this.size;
     } // size
 
+    //finder method that finds a node based on its element in the tree and returns it
+    private Node finder (Node r, int element) {
+        if (element < r.key) {
+            return finder(r.leftChild, element);
+        } else if (element > r.key) {
+            return finder(r.rightChild, element);
+        } else if (element == r.key) {
+            return r;
+        } else {
+            Node newNode = new Node();
+            newNode.leftChild = null;
+            newNode.rightChild = null;
+            newNode.key = -1;
+            return newNode;
+        } //if
+    } //finder
+
     public void insert(int element) {
         //if  the tree is empty, make the element the root
         if (root == null) {
-            root = element;
+            root.key = element;
             return;
         } //if
 
@@ -86,7 +103,8 @@ public class BST {
         temp.rightChild = null;
 
         //if element is already in tree, print message to user
-        if (finder(root,element).key == null) {
+        Node found = finder(root, element);
+        if (finder(root,element).key != -1) {
             System.out.println("Element is already in the tree!");
             return;
         } //if
@@ -120,24 +138,9 @@ public class BST {
 
     public void delete(int element) {
         Node temp = finder(root, element);
-        temp.key = null;
+        temp.key = -1;
         //while (r.key != element) {} // do shit
     } // delete
-
-    //finder method that finds a node based on its element in the tree and returns it
-    private Node finder (Node r, int elememt) {
-        if (element < r.key) {
-            return finder(r.leftChild, element);
-        } else if (element > r.key) {
-            return finder(r.rightChild, element);
-        } else if (element == r.key) {
-            return r;
-        } else {
-            Node newNode = new Node();
-            newNode.leftChild = null;
-            newNode.rightChild = null;
-            return newNode;
-    } //find
 
     public void preorder() {
         Node current = this.root;
