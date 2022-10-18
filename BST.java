@@ -75,25 +75,31 @@ public class BST {
 
     //finder method that finds a node based on its element in the tree and returns it
     private Node finder (Node r, int element) {
-        if (element < r.key) {
-            return finder(r.leftChild, element);
-        } else if (element > r.key) {
-            return finder(r.rightChild, element);
-        } else if (element == r.key) {
-            return r;
-        } else {
+        if (r == null) {
             Node newNode = new Node();
             newNode.leftChild = null;
             newNode.rightChild = null;
             newNode.key = -1;
             return newNode;
         } //if
+        if (element < r.key) {
+            return finder(r.leftChild, element);
+        } else if (element > r.key) {
+            return finder(r.rightChild, element);
+        } else {
+            return r;
+        } //if
     } //finder
 
     public void insert(int element) {
         //if  the tree is empty, make the element the root
         if (root == null) {
-            root.key = element;
+            //creating the new node to be inserted
+            Node temp = new Node(element);
+            temp.leftChild = null;
+            temp.rightChild = null;
+            root = temp;
+            size++;
             return;
         } //if
 
@@ -126,7 +132,7 @@ public class BST {
         } else {
             leaf.rightChild = temp;
         } //else
-
+        size++;
         /*
         boolean isInserted = false;
         while (!isInserted) {
@@ -139,6 +145,7 @@ public class BST {
     public void delete(int element) {
         Node temp = finder(root, element);
         temp.key = -1;
+        size--;
         //while (r.key != element) {} // do shit
     } // delete
 
@@ -152,7 +159,9 @@ public class BST {
         if (current == null) {
             return;
         } //if
-        System.out.println(current.key);
+        if (current.key != -1) {
+            System.out.print(current.key + " ");
+        } //if
         preorderHelper(current.leftChild);
         preorderHelper(current.rightChild);
     } // preorderHelper
@@ -169,7 +178,9 @@ public class BST {
         } //if
         postorderHelper(current.leftChild);
         postorderHelper(current.rightChild);
-        System.out.println(current.key);
+        if (current.key != -1) {
+            System.out.print(current.key + " ");
+        } //if
     } // postorderHelper
 
     public void inorder() {
@@ -183,7 +194,9 @@ public class BST {
             return;
         } //if
         inorderHelper(current.leftChild);
-        System.out.println(current.key);
+        if (current.key != -1) {
+            System.out.print(current.key + " ");
+        } //if
         inorderHelper(current.rightChild);
     } // inorderHelper
 
