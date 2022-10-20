@@ -133,20 +133,16 @@ public class BST {
             leaf.rightChild = temp;
         } //else
         size++;
-        /*
-        boolean isInserted = false;
-        while (!isInserted) {
-            if (element > this.root.key) {} // do shit to the right
-            if (element < this.root.key) {} // do shit to the left
-        } // while
-        */
     } // insert
 
     public void delete(int element) {
         Node temp = finder(root, element);
+        if (temp.key == -1) {
+            System.out.println("Element not found!");
+            return;
+        } //if
         temp.key = -1;
         size--;
-        //while (r.key != element) {} // do shit
     } // delete
 
     public void preorder() {
