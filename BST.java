@@ -219,7 +219,9 @@ public class BST {
     // and refactors BST
     //======================================================
     private Node deleteRec(Node current, int element) {
-	if (current == null) return null;
+	if (current == null) {
+	    return null;
+	} // if
 	if (element < current.getKey()) {
 	    current.setLeftChild(deleteRec(current.getLeftChild(), element));
 	} else if (element > current.getKey()) {
@@ -250,7 +252,7 @@ public class BST {
     //======================================================
     private void preorderHelper(Node current) {
 	if (current == null) return;
-	if (current != null) System.out.print(current.getKey() + " ");
+	System.out.print(current.getKey() + " ");
         preorderHelper(current.getLeftChild());
         preorderHelper(current.getRightChild());
     } // preorderHelper
@@ -270,7 +272,7 @@ public class BST {
         if (current == null) return;
         postorderHelper(current.getLeftChild());
         postorderHelper(current.getRightChild());
-	if (current != null) System.out.print(current.getKey() + " ");
+	System.out.print(current.getKey() + " ");
     } // postorderHelper
 
     //======================================================
@@ -287,7 +289,7 @@ public class BST {
     private void inorderHelper(Node current) {
         if (current == null) return;
         inorderHelper(current.getLeftChild());
-	if (current != null) System.out.print(current.getKey() + " ");
+        System.out.print(current.getKey() + " ");
         inorderHelper(current.getRightChild());
     } // inorderHelper
 
