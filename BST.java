@@ -2,7 +2,7 @@
 // BST defines a binary search tree implementation
 //======================================================
 public class BST {
-
+    
     //======================================================
     // Node defines a node subclass of BST
     //======================================================
@@ -136,14 +136,14 @@ public class BST {
             if (current.getLeftChild() != null) {
                 find(current.getLeftChild(), element);
             } else {
-		System.out.print("\nElement not found!");
+		System.out.println("Element not found!");
                 return null;
             } // if
         } else if (element > current.getKey()) {
             if (current.getRightChild() != null) {
                 find(current.getRightChild(), element);
             } else {
-		System.out.print("\nElement not found!");
+		System.out.println("Element not found!");
                 return null;
             } // if
         } // if
@@ -164,40 +164,26 @@ public class BST {
     // Calls method to recursively insert a new element
     //======================================================
     public void insert(int element) {
-	Node current = this.root; 
-	if (root == null) {
-	    root = new Node(element);
-	    size++;
-	} else {
-	    insertRec(current, element);
-	} // if
+	root = insertRec(this.root, element);
     } // insert
 
     //======================================================
     // Recursively inserts a new node in the BST with
     // key = element
     //======================================================
-    private void insertRec(Node current, int element) {
-	Node insert = new Node(element);
+    private Node insertRec(Node current, int element) {
+	if (current == null) {
+	    size++;
+	    return new Node(element);
+	} // if
 	if (element < current.getKey()) {
-	    if (current.getLeftChild() != null) {
-		insertRec(current.getLeftChild(), element);
-	    } else {
-		current.setLeftChild(insert);
-		insert.setParent(current);
-		size++;
-	    } // if
+	    current.setLeftChild(insertRec(current.getLeftChild(), element));
 	} else if (element > current.getKey()) {
-	    if (current.getRightChild() != null) {
-		insertRec(current.getRightChild(), element);
-	    } else {
-		current.setRightChild(insert);
-		insert.setParent(current);
-		size++;
-	    } // if
+	    current.setRightChild(insertRec(current.getRightChild(), element));
 	} else {
 	    System.out.println("Element is already in the tree!");
 	} // if
+	return current;
     } // insertRec
 
     //======================================================
@@ -206,9 +192,7 @@ public class BST {
     // prints "Element not found!"
     //======================================================
     public void delete(int element) {
-	if (find(this.root, element) == null) {
-	    return;
-	} else {
+	if (find(this.root, element) != null) {
 	    deleteRec(this.root, element);
 	    size--;
 	} // if
@@ -251,10 +235,11 @@ public class BST {
     // prints each element
     //======================================================
     private void preorderHelper(Node current) {
-	if (current == null) return;
-	System.out.print(current.getKey() + " ");
-        preorderHelper(current.getLeftChild());
-        preorderHelper(current.getRightChild());
+	if (current != null && size() > 0) {
+	    System.out.print(current.getKey() + " ");
+	    preorderHelper(current.getLeftChild());
+	    preorderHelper(current.getRightChild());
+	} // if
     } // preorderHelper
 
     //======================================================
@@ -269,10 +254,11 @@ public class BST {
     // prints each element
     //======================================================
     private void postorderHelper(Node current) {
-        if (current == null) return;
-        postorderHelper(current.getLeftChild());
-        postorderHelper(current.getRightChild());
-	System.out.print(current.getKey() + " ");
+        if (current != null && size() > 0) {
+	    postorderHelper(current.getLeftChild());
+	    postorderHelper(current.getRightChild());
+	    System.out.print(current.getKey() + " ");
+	} // if
     } // postorderHelper
 
     //======================================================
@@ -287,10 +273,11 @@ public class BST {
     // prints each element
     //======================================================
     private void inorderHelper(Node current) {
-        if (current == null) return;
-        inorderHelper(current.getLeftChild());
-        System.out.print(current.getKey() + " ");
-        inorderHelper(current.getRightChild());
+        if (current != null && size() > 0) {
+	    inorderHelper(current.getLeftChild());
+	    System.out.print(current.getKey() + " ");
+	    inorderHelper(current.getRightChild());
+	} // if
     } // inorderHelper
 
 } // BST
