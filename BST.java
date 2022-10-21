@@ -1,95 +1,136 @@
+//======================================================
+// BST defines a binary search tree implementation
+//======================================================
 public class BST {
-    //node class
+    
+    //======================================================
+    // Node defines a node subclass of BST
+    //======================================================
     public class Node {
 
-        //instance variables for the key, parent, leftChild, and rightChild
+	  //======================================================
+	  // Node instance variables
+	  //======================================================
         private int key;
         private Node parent;
         private Node leftChild;
         private Node rightChild;
 
-        //constructor for Node
-        public Node() {
-            this.key = -1;
-            this.parent = null;
-            this.leftChild = null;
-            this.rightChild = null;
-        } // Node
+    //======================================================
+    // Constructs a node with key = -1
+    //======================================================
+          public Node() {
+              this.key = -1;
+              this.parent = null;
+              this.leftChild = null;
+              this.rightChild = null;
+          } // Node
 
-        //constructor for Node given the key
-        public Node(int key) {
-            this.key = key;
-            this.parent = null;
-            this.leftChild = null;
-            this.rightChild = null;
-        } // Node
+    //======================================================
+    // Constructs a node with key = key
+    //======================================================
+          public Node(int key) {
+              this.key = key;
+              this.parent = null;
+              this.leftChild = null;
+              this.rightChild = null;
+          } // Node
 
-        //constructor for Node given all variables that a Node contains
-        public Node(int key, Node parent, Node leftChild, Node rightChild) {
-            this.key = key;
-            this.parent = parent;
-            this.leftChild = leftChild;
-            this.rightChild = rightChild;
-        } // Node
+    //======================================================
+    // Constructs a node with key = key, parent = parent,
+    // leftChild = leftChild, and rightChild = rightChild
+    //======================================================
+          public Node(int key, Node parent, Node leftChild, Node rightChild) {
+              this.key = key;
+              this.parent = parent;
+              this.leftChild = leftChild;
+              this.rightChild = rightChild;
+          } // Node
 
-        //sets the key for the Node
-        private void setKey(int key) {
-            this.key = key;
-        } // setKey
+    //======================================================
+    // Sets node's key = key
+    //======================================================
+          private void setKey(int key) {
+              this.key = key;
+          } // setKey
 
-        //gets the key for the Node
-        public int getKey() {
-            return key;
-        } // getKey
+    //======================================================
+    // Returns node's key
+    //======================================================
+          public int getKey() {
+              return key;
+          } // getKey
 
-        //sets the parent for the Node
-        private void setParent(Node parent) {
-            this.parent = parent;
-        } // setParent
+    //======================================================
+    // Sets node's parent = parent
+    //======================================================
+          private void setParent(Node parent) {
+              this.parent = parent;
+          } // setParent
 
-        //gets the parents for the Node
-        public Node getParent() {
-            return parent;
-        } // getParent
+    //======================================================
+    // Returns node's parent
+    //======================================================
+          public Node getParent() {
+              return parent;
+          } // getParent
 
-        //sets the Left Child of the Node
-        private void setLeftChild(Node leftChild) {
-            this.leftChild = leftChild;
-        } // setLeftChild
+    //======================================================
+    // Sets node's left child = leftChild
+    //======================================================
+          private void setLeftChild(Node leftChild) {
+              this.leftChild = leftChild;
+          } // setLeftChild
 
-        //gets the Left Child of the Node
-        public Node getLeftChild() {
-            return leftChild;
-        } // getLeftChild
+    //======================================================
+    // Returns node's left child
+    //======================================================
+          public Node getLeftChild() {
+              return leftChild;
+          } // getLeftChild
 
-        //sets the Right Child of the Node
-        private void setRightChild(Node rightChild) {
-            this.rightChild = rightChild;
-        } // setRightChild
+    //======================================================
+    // Sets node's right child = rightChild
+    //======================================================
+          private void setRightChild(Node rightChild) {
+              this.rightChild = rightChild;
+          } // setRightChild
 
-        //gets the Right Child of the Node
-        public Node getRightChild() {
-            return rightChild;
-        } // getRightChild
+    //======================================================
+    // Returns node's right child
+    //======================================================
+          public Node getRightChild() {
+              return rightChild;
+          } // getRightChild
 
     } // Node
 
-    //variables that keep track of the root and the size
-    private Node root;
-    private int size;
+  //======================================================
+  // BST instance variables
+  //======================================================
+  private Node root;
+  private int size;
 
 
-    //constructor for the BST
-    public BST() {
+  //======================================================
+  // Constructs an empty BST
+  //======================================================
+  public BST() {
         this.root = null;
         this.size = 0;
     } // BST
 
-    //size method that returns the size of the tree
+    //======================================================
+    // Returns BST's size (number of nodes)
+    //======================================================
     public int size() {
         return this.size;
     } // size
 
+    //======================================================
+    // Finds the node in the BST with key = element if it
+    // exists and returns it; otherwise, returns null
+    //======================================================
     private Node find(Node n, int element) {
         Node current = n;
         if (element < current.getKey()) {
@@ -108,6 +149,9 @@ public class BST {
         return current;
     } // find
 
+    //======================================================
+    // Finds the inorder predecessor of predNode
+    //======================================================
     private int inorderPred(Node predNode) {
         Node current = predNode;
         if (current.getRightChild() != null ) {
@@ -116,37 +160,49 @@ public class BST {
         return current.getKey();
     } // inorderPred
 
-    //insert method that inserts an element into the BST in the correct posiiton
-    //if the element is already in the tree, it prints a message to the user
+    //======================================================
+    // Calls method to recursively insert a new element
+    //======================================================
     public void insert(int element) {
-        Node current = this.root;
-        if (root == null) {
-            root = new Node(element);
-        } else {
-            insertRec(current, element);
-        } // if
-        size++;
+	    Node current = this.root; 
+	    if (root == null) {
+	        root = new Node(element);
+	        System.out.println("Root: " + root.getKey());
+	    } else {
+	      insertRec(current, element);
+	    } // if
+	    size++;
     } // insert
 
+    //======================================================
+    // Recursively inserts a new node in the BST with
+    // key = element
+    //======================================================
     private void insertRec(Node current, int element) {
-        if (element < current.getKey()) {
-            if (current.getLeftChild() != null) {
-                insertRec(current.getLeftChild(), element);
-            } else {
-                current.setLeftChild(new Node(element));
-            } // if
-        } else if (element > current.getKey()) {
-            if (current.getRightChild() != null) {
-                insertRec(current.getRightChild(), element);
-            } else {
-                current.setRightChild(new Node(element));
-            } // if
-        } else {
-            System.out.println("Element is already in the tree!");
-        } // if
+        	Node insert = new Node(element);
+	if (element < current.getKey()) {
+	    if (current.getLeftChild() != null) {
+		insertRec(current.getLeftChild(), element);
+	    } else {
+		current.setLeftChild(insert);
+		insert.setParent(current);
+		System.out.println("Inserted: " + insert.getKey());
+		System.out.println("Inserted parent: " + insert.getParent().getKey());
+	    } // if
+	} else if (element > current.getKey()) {
+	    if (current.getRightChild() != null) {
+		insertRec(current.getRightChild(), element);
+	    } else {
+		current.setRightChild(insert);
+		insert.setParent(current);
+		System.out.println("Inserted: " + insert.getKey());
+		System.out.println("Inserted parent: " + insert.getParent().getKey());
+	    } // if
+	} else {
+	    System.out.println("Element is already in the tree!");
+	} // if
     } // insertRec
-/*
-//calls the helper method to print out the tree in the preorder traversal order
+
 public void delete(int element) {
 Node current = this.root;
 if (find(current, element) == null) {
@@ -178,117 +234,120 @@ deleteRec(current.getRightChild(), pred);
 } // if
 return current;
 } // deleteRec
-*/
 
 
-    private Node deleteHelper(Node root, int element) {
-        Node t = root;
-        if (t == null) {
-            return root;
-        } else if(element < t.key) {
-            t.leftChild = (deleteHelper(t.leftChild, element));
-        } else if (element > t.key) {
-            t.rightChild = (deleteHelper(t.rightChild, element));
-        } else {
-            if(t.leftChild == null && t.rightChild == null) {
-                t.setParent(null);
-                t.key = -1;
-                return null;
-            } else if (t.leftChild == null) {
-                System.out.println(root.rightChild.key);
-                t.key = t.rightChild.key;
-                System.out.println(root.key);
-                t.rightChild.key = -1;
-                System.out.println(root.rightChild.key);
-                t.rightChild = null;
-                System.out.println(root.rightChild);
-                return t;
-            } else if (t.rightChild == null) {
-                t.key = t.leftChild.key;
-                t.leftChild.key = -1;
-                t.leftChild = null;
-            } else {
-                Integer maxValue = findMax(t.leftChild);
-                t.key = maxValue;
-                t.rightChild = (deleteHelper(t.rightChild, maxValue));
-            } //else
-        } //else
-        return root;
-    } //deleteHelper
 
-    public void delete(int element) {
-        size--;
-        deleteHelper(this.root, element);
-    } //delete
+  //======================================================
+  // Calls method to recursively delete the node with
+  // key = element if it exists in the BST; otherwise,
+  // prints "Element not found!"
+  //======================================================
+  public void delete(int element) {
+	  Node current = this.root;
+	  if (find(current, element) == null) {
+	    System.out.println("Element not found!");
+	  } else {
+	    deleteRec(current, element);
+	    size--;
+	  } // if
+  } // delete
 
-    private int findMax(Node root) {
-        int temp;
-        if (root != null) {
-            temp = root.key;
-            if (root.leftChild != null) {
-                temp = root.leftChild.key;
-            } //if
-        } else {
-            return -1;
-        } //if
-        int a = Math.max(temp, findMax(root.rightChild));
-        int out = Math.max(findMax(root.leftChild),a);
-        return out;
-    } //findMax
+   //======================================================
+   // Recursively deletes the node with key = element
+   // and refactors BST
+   //======================================================
+  private void deleteRec(Node current, int element) {
+	  if (current == null) return;
+	  if (element < current.getKey()) {
+	    deleteRec(current.getLeftChild(), element);
+	  } else if (element > current.getKey()) {
+	    deleteRec(current.getRightChild(), element);
+	  } else {
+	    if (current.getLeftChild() == null && current.getRightChild() == null) {
+		    if (current == root) {
+		      root = null;
+		  } else if (current.getParent().getKey() > current.getKey()) {
+		    Node parent = current.getParent();
+		    parent.setLeftChild(current.getLeftChild());
+		  } else if (current.getParent().getKey() < current.getKey()) {
+		    Node parent = current.getParent();
+		    parent.setRightChild(current.getRightChild());
+		  } // if
+	  } else if (current.getLeftChild() == null) {
+		  if (current == root) {
+		    root = current.getRightChild();
+		  } else {
+		    current.getParent().setRightChild(current.getRightChild());
+		  } // if
+	  } else if (current.getRightChild() == null) {
+		  if (current == root) {
+		    root = current.getLeftChild();
+		  } else {
+		    current.getParent().setLeftChild(current.getLeftChild());
+		  } // if
+	  } else {
+		int pred = inorderPred(current.getLeftChild());
+		current.setKey(pred);
+	  deleteRec(current.getLeftChild(), pred);
+	  } // if
+	} // if
+    } // deleteRec
 
+    //======================================================
+    // Calls recursive preorder method
+    //======================================================
     public void preorder() {
         Node current = this.root;
         this.preorderHelper(current);
     } // preorder
 
-//prints out the elements in the tree according to their order in a preorder traversal
-//node, left, right
+    //======================================================
+    // Recursively iterates through the BST preorder and
+    // prints each element
+    //======================================================
     private void preorderHelper(Node current) {
-        if (current == null) {
-            return;
-        } else if (current.getKey() != -1) {
-            System.out.print(current.key + " ");
-        } // if
+	if (current == null) return;
+	System.out.print(current.key + " ");
         preorderHelper(current.leftChild);
         preorderHelper(current.rightChild);
     } // preorderHelper
 
-//calls the helper method to print out the tree in the postorder traversal order
+    //======================================================
+    // Calls recursive postorder method 
+    //======================================================
     public void postorder() {
         Node current = this.root;
         this.postorderHelper(current);
     } // postorder
 
-//prints out the elements in the tree according to their order in a postorder traversal
-//left,right,node
+    //======================================================
+    // Recursively iterates through the BST postorder and
+    // prints each element
+    //======================================================
     private void postorderHelper(Node current) {
-        if (current == null) {
-            return;
-        } //if
+        if (current == null) return;
         postorderHelper(current.leftChild);
         postorderHelper(current.rightChild);
-        if (current.key != -1) {
-            System.out.print(current.key + " ");
-        } //if
+	System.out.print(current.key + " ");
     } // postorderHelper
 
-//calls the helper method to print out the tree in the inorder traversal order
+    //======================================================
+    // Calls recursive inorder method
+    //======================================================
     public void inorder() {
         Node current = this.root;
         this.inorderHelper(current);
     } // inorder
 
-//prints out the elements in the tree according to their order in an inorder traversal
-//left,node,right
+    //======================================================
+    // Recursively iterates through the BST inorder and
+    // prints each element
+    //======================================================
     private void inorderHelper(Node current) {
         // recursively inorder the BST
-        if (current == null) {
-            return;
-        } //if
+        if (current == null) return;
         inorderHelper(current.leftChild);
-        if (current.key != -1) {
-            System.out.print(current.key + " ");
-        } //if
+	System.out.print(current.key + " ");
         inorderHelper(current.rightChild);
     } // inorderHelper
 
