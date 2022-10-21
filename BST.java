@@ -1,14 +1,24 @@
+//======================================================
+// BST defines a binary search tree implementation
+//======================================================
 public class BST {
-    //node class
+    
+    //======================================================
+    // Node defines a node subclass of BST
+    //======================================================
     public class Node {
 
-        //instance variables for the key, parent, leftChild, and rightChild
+	//======================================================
+	// Node instance variables
+	//======================================================
         private int key;
         private Node parent;
         private Node leftChild;
         private Node rightChild;
 
-        //constructor for Node
+	//======================================================
+	// Constructs a node with key = -1
+	//======================================================
         public Node() {
             this.key = -1;
             this.parent = null;
@@ -16,7 +26,9 @@ public class BST {
             this.rightChild = null;
         } // Node
 
-        //constructor for Node given the key
+	//======================================================
+	// Constructs a node with key = key
+	//======================================================
         public Node(int key) {
             this.key = key;
             this.parent = null;
@@ -24,7 +36,10 @@ public class BST {
             this.rightChild = null;
         } // Node
 
-        //constructor for Node given all variables that a Node contains
+	//======================================================
+	// Constructs a node with key = key, parent = parent,
+	// leftChild = leftChild, and rightChild = rightChild
+	//======================================================
         public Node(int key, Node parent, Node leftChild, Node rightChild) {
             this.key = key;
             this.parent = parent;
@@ -32,65 +47,90 @@ public class BST {
             this.rightChild = rightChild;
         } // Node
 
-        //sets the key for the Node
+	//======================================================
+	// Sets node's key = key
+	//======================================================
         private void setKey(int key) {
             this.key = key;
         } // setKey
 
-        //gets the key for the Node
+	//======================================================
+	// Returns node's key
+	//======================================================
         public int getKey() {
             return key;
         } // getKey
 
-        //sets the parent for the Node
+	//======================================================
+	// Sets node's parent = parent
+	//======================================================
         private void setParent(Node parent) {
             this.parent = parent;
         } // setParent
 
-        //gets the parents for the Node
+	//======================================================
+	// Returns node's parent
+	//======================================================
         public Node getParent() {
             return parent;
         } // getParent
 
-        //sets the Left Child of the Node
+	//======================================================
+	// Sets node's left child = leftChild
+	//======================================================
         private void setLeftChild(Node leftChild) {
             this.leftChild = leftChild;
         } // setLeftChild
 
-        //gets the Left Child of the Node
+	//======================================================
+	// Returns node's left child
+	//======================================================
         public Node getLeftChild() {
             return leftChild;
         } // getLeftChild
-
-        //sets the Right Child of the Node
+	
+	//======================================================
+	// Sets node's right child = rightChild
+	//======================================================
         private void setRightChild(Node rightChild) {
             this.rightChild = rightChild;
         } // setRightChild
 
-        //gets the Right Child of the Node
+	//======================================================
+	// Returns node's right child
+	//======================================================
         public Node getRightChild() {
             return rightChild;
         } // getRightChild
 
     } // Node
 
-
-    //variables that keep track of the root and the size
+    //======================================================
+    // BST instance variables
+    //======================================================
     private Node root;
     private int size;
 
 
-    //constructor for the BST
+    //======================================================
+    // Constructs an empty BST
+    //======================================================
     public BST() {
         this.root = null;
         this.size = 0;
     } // BST
 
-    //size method that returns the size of the tree
+    //======================================================
+    // Returns BST's size (number of nodes)
+    //======================================================
     public int size() {
         return this.size;
     } // size
-    
+
+    //======================================================
+    // Finds the node in the BST with key = element if it
+    // exists and returns it; otherwise, returns null
+    //======================================================
     private Node find(Node n, int element) {
 	Node current = n;
 	if (element < current.getKey()) {
@@ -108,7 +148,10 @@ public class BST {
 	} // if
 	return current;
     } // find
-    
+
+    //======================================================
+    // Finds the inorder predecessor of predNode
+    //======================================================
     private int inorderPred(Node predNode) {
 	Node current = predNode;
 	if (current.getRightChild() != null ) {
@@ -117,8 +160,9 @@ public class BST {
 	return current.getKey();
     } // inorderPred
 
-    //insert method that inserts an element into the BST in the correct posiiton
-    //if the element is already in the tree, it prints a message to the user
+    //======================================================
+    // Calls method to recursively insert a new element
+    //======================================================
     public void insert(int element) {
 	Node current = this.root;
 	if (root == null) {
@@ -130,6 +174,10 @@ public class BST {
 	size++;
     } // insert
 
+    //======================================================
+    // Recursively inserts a new node in the BST with
+    // key = element
+    //======================================================
     private void insertRec(Node current, int element) {
 	Node insert = new Node(element);
 	if (element < current.getKey()) {
@@ -154,7 +202,12 @@ public class BST {
 	    System.out.println("Element is already in the tree!");
 	} // if
     } // insertRec
-    
+
+    //======================================================
+    // Calls method to recursively delete the node with
+    // key = element if it exists in the BST; otherwise,
+    // prints "Element not found!"
+    //======================================================
     public void delete(int element) {
 	Node current = this.root;
 	if (find(current, element) == null) {
@@ -165,6 +218,10 @@ public class BST {
 	} // if
     } // delete
 
+    //======================================================
+    // Recursively deletes the node with key = element
+    // and refactors BST
+    //======================================================
     private void deleteRec(Node current, int element) {
 	if (current == null) return;
 	if (element < current.getKey()) {
@@ -201,14 +258,19 @@ public class BST {
 	    } // if
 	} // if
     } // deleteRec
-    
+
+    //======================================================
+    // Calls recursive preorder method
+    //======================================================
     public void preorder() {
         Node current = this.root;
         this.preorderHelper(current);
     } // preorder
 
-    //prints out the elements in the tree according to their order in a preorder traversal
-    //node, left, right
+    //======================================================
+    // Recursively iterates through the BST preorder and
+    // prints each element
+    //======================================================
     private void preorderHelper(Node current) {
 	if (current == null) return;
 	System.out.print(current.key + " ");
@@ -216,14 +278,18 @@ public class BST {
         preorderHelper(current.rightChild);
     } // preorderHelper
 
-    //calls the helper method to print out the tree in the postorder traversal order
+    //======================================================
+    // Calls recursive postorder method 
+    //======================================================
     public void postorder() {
         Node current = this.root;
         this.postorderHelper(current);
     } // postorder
 
-    //prints out the elements in the tree according to their order in a postorder traversal
-    //left,right,node
+    //======================================================
+    // Recursively iterates through the BST postorder and
+    // prints each element
+    //======================================================
     private void postorderHelper(Node current) {
         if (current == null) return;
         postorderHelper(current.leftChild);
@@ -231,14 +297,18 @@ public class BST {
 	System.out.print(current.key + " ");
     } // postorderHelper
 
-    //calls the helper method to print out the tree in the inorder traversal order
+    //======================================================
+    // Calls recursive inorder method
+    //======================================================
     public void inorder() {
         Node current = this.root;
         this.inorderHelper(current);
     } // inorder
-
-    //prints out the elements in the tree according to their order in an inorder traversal
-    //left,node,right
+    
+    //======================================================
+    // Recursively iterates through the BST inorder and
+    // prints each element
+    //======================================================
     private void inorderHelper(Node current) {
         // recursively inorder the BST
         if (current == null) return;
