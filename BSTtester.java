@@ -36,6 +36,7 @@ public class BSTtester {
         // Test inorder + delete
         tree.inorder();
 
+        /*
         tree.delete(200);
         System.out.println("\nExample 4: preorder traversal after a deleting a "
         + "leaf");
@@ -43,9 +44,11 @@ public class BSTtester {
         System.out.print("Your Tree:\t");
         // Test preorder + delete
         tree.preorder();
+        */
 
-
+        System.out.println();
         tree.delete(6);
+        System.out.println();
         System.out.println("\nExample 5: preorder traversal after a deleting a "
         + "node with one child");
         System.out.println("Expected:\t" + "4 2 5 9 8 11 10 14");

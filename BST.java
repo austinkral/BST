@@ -182,34 +182,44 @@ public class BST {
         } //if
         //if the element is in the tree and is not in the root, call deletehelper method
         size--;
-        this.deleteHelper(element, root);
+        root = this.deleteHelper(element, root);
     } // delete
 
-    private void deleteHelper(int element, Node root) {
-        if (root.val < element) {
-            root.right = deleteHelper(element, root.rightChild);
-        } else if (root.val > element) {
-            root.left = deleteHelper(element, root.leftChild);
+    private Node deleteHelper(int element, Node root) {
+        if (root.key < element) {
+            root.rightChild = deleteHelper(element, root.rightChild);
+        } else if (root.key > element) {
+            root.leftChild = deleteHelper(element, root.leftChild);
         } else {
             if (root.rightChild != null &&  root.leftChild != null) {
-                root.key = findMin(root.rightChild);
+                root.key = findMax(root.leftChild);
                 root.rightChild = deleteHelper(root.key,root.rightChild);
             } else if (root.rightChild == null && root.leftChild != null) {
-
+                System.out.println(root.leftChild.key);
+                System.out.println("a");
+                root.getParent().leftChild = root.leftChild;
+            } else if (root.rightChild != null && root.leftChild == null) {
+                System.out.println(root.rightChild.key);
+                System.out.println(root.getParent());
+                root.getParent().rightChild = root.rightChild;
             } else {
-
-            } //if
+                root.key = -1;
+            } //else
         } //if
+        return root;
     } //deleteHelper
 
-    private int findMin(Node root) {
-        int out = root.key;
+    private int findMax(Node root) {
+        int temp = root.key;
         if (root != null) {
-            while(root.rightChild != null){
-                root=root.right;
-                out = root.key;
-            } //while
+            if (root.leftChild != null) {
+                temp = root.leftChild.key;
+            } //if
+        } else {
+            return root.key;
         } //if
+        int a = Math.max(temp, findMax(root.rightChild));
+        int out = Math.max(findMax(root.leftChild), a);
         return out;
     } //findMin
 
