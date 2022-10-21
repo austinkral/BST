@@ -123,6 +123,7 @@ public class BST {
 	Node current = this.root;
 	if (root == null) {
 	    root = new Node(element);
+	    System.out.println("Root: " + root.getKey());
 	} else {
 	    insertRec(current, element);
 	} // if
@@ -130,17 +131,24 @@ public class BST {
     } // insert
 
     private void insertRec(Node current, int element) {
+	Node insert = new Node(element);
 	if (element < current.getKey()) {
 	    if (current.getLeftChild() != null) {
 		insertRec(current.getLeftChild(), element);
 	    } else {
-		current.setLeftChild(new Node(element));
+		current.setLeftChild(insert);
+		insert.setParent(current);
+		System.out.println("Inserted: " + insert.getKey());
+		System.out.println("Inserted parent: " + insert.getParent().getKey());
 	    } // if
 	} else if (element > current.getKey()) {
 	    if (current.getRightChild() != null) {
 		insertRec(current.getRightChild(), element);
 	    } else {
-		current.setRightChild(new Node(element));
+		current.setRightChild(insert);
+		insert.setParent(current);
+		System.out.println("Inserted: " + insert.getKey());
+		System.out.println("Inserted parent: " + insert.getParent().getKey());
 	    } // if
 	} else {
 	    System.out.println("Element is already in the tree!");
@@ -157,26 +165,41 @@ public class BST {
 	} // if
     } // delete
 
-    private Node deleteRec(Node current, int element) {
-	if (current == null) return current;
+    private void deleteRec(Node current, int element) {
+	if (current == null) return;
 	if (element < current.getKey()) {
-	    current.setLeftChild(deleteRec(current.getLeftChild(), element));
+	    deleteRec(current.getLeftChild(), element);
 	} else if (element > current.getKey()) {
-	    current.setRightChild(deleteRec(current.getRightChild(), element));
+	    deleteRec(current.getRightChild(), element);
 	} else {
 	    if (current.getLeftChild() == null && current.getRightChild() == null) {
-		return null;
+		if (current == root) {
+		    root = null;
+		} else if (current.getParent().getKey() > current.getKey()) {
+		    Node parent = current.getParent();
+		    parent.setLeftChild(current.getLeftChild());
+		} else if (current.getParent().getKey() < current.getKey()) {
+		    Node parent = current.getParent();
+		    parent.setRightChild(current.getRightChild());
+		} // if
 	    } else if (current.getLeftChild() == null) {
-		return current.getRightChild();
+		if (current == root) {
+		    root = current.getRightChild();
+		} else {
+		    current.getParent().setRightChild(current.getRightChild());
+		} // if
 	    } else if (current.getRightChild() == null) {
-		return current.getLeftChild();
+		if (current == root) {
+		    root = current.getLeftChild();
+		} else {
+		    current.getParent().setLeftChild(current.getLeftChild());
+		} // if
 	    } else {
 		int pred = inorderPred(current.getLeftChild());
 		current.setKey(pred);
-	        deleteRec(current.getRightChild(), pred);
+	        deleteRec(current.getLeftChild(), pred);
 	    } // if
 	} // if
-	return current;
     } // deleteRec
     
     public void preorder() {
@@ -187,11 +210,8 @@ public class BST {
     //prints out the elements in the tree according to their order in a preorder traversal
     //node, left, right
     private void preorderHelper(Node current) {
-	if (current == null) {
-	    return;
-	} else if (current.getKey() != -1) {
-		System.out.print(current.key + " ");
-	} // if
+	if (current == null) return;
+	System.out.print(current.key + " ");
         preorderHelper(current.leftChild);
         preorderHelper(current.rightChild);
     } // preorderHelper
@@ -205,14 +225,10 @@ public class BST {
     //prints out the elements in the tree according to their order in a postorder traversal
     //left,right,node
     private void postorderHelper(Node current) {
-        if (current == null) {
-            return;
-        } //if
+        if (current == null) return;
         postorderHelper(current.leftChild);
         postorderHelper(current.rightChild);
-        if (current.key != -1) {
-            System.out.print(current.key + " ");
-        } //if
+	System.out.print(current.key + " ");
     } // postorderHelper
 
     //calls the helper method to print out the tree in the inorder traversal order
@@ -225,13 +241,9 @@ public class BST {
     //left,node,right
     private void inorderHelper(Node current) {
         // recursively inorder the BST
-        if (current == null) {
-            return;
-        } //if
+        if (current == null) return;
         inorderHelper(current.leftChild);
-        if (current.key != -1) {
-            System.out.print(current.key + " ");
-        } //if
+	System.out.print(current.key + " ");
         inorderHelper(current.rightChild);
     } // inorderHelper
 
