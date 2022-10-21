@@ -19,6 +19,7 @@ public class BSTtester {
         tree.insert(8);
         tree.insert(1);
         tree.insert(14);
+	tree.insert(14);
         System.out.println("Example 1: preorder traversal");
         System.out.println("Expected:\t" + "4 2 1 5 9 6 8 11 10 14");
         System.out.print("Your Tree:\t");
@@ -39,15 +40,13 @@ public class BSTtester {
         // Test inorder + delete
         tree.inorder();
 
-        /*
-          tree.delete(200);
-          System.out.println("\nExample 4: preorder traversal after a deleting a "
-          + "leaf");
-          System.out.println("Expected:\t" + "4 2 5 9 6 8 11 10 14");
-          System.out.print("Your Tree:\t");
-          // Test preorder + delete
-          tree.preorder();
-        */
+	tree.delete(200);
+	System.out.println("\nExample 4: preorder traversal after a deleting a "
+			   + "leaf");
+	System.out.println("Expected:\t" + "4 2 1 5 9 6 8 11 10 14");
+	System.out.print("Your Tree:\t");
+	// Test preorder + delete
+	tree.preorder();
 
         System.out.println();
         tree.delete(6);
@@ -58,11 +57,10 @@ public class BSTtester {
         System.out.print("Your Tree:\t");
         tree.preorder();
 
-/*
         tree.delete(9);
         System.out.println("\nExample 6: preorder traversal after a deleting a "
         + "node with two children");
-        System.out.println("Expected:\t" + "4 2 5 8 11 10 14");
+        System.out.println("Expected:\t" + "4 2 1 5 8 11 10 14");
         System.out.print("Your Tree:\t");
         tree.preorder();
 
@@ -134,7 +132,6 @@ public class BSTtester {
         + "deletions");
         System.out.println("Expected:\t" + "7");
         System.out.println("Your Tree:\t" + tree2.size());
-*/
     } // main
 
 } // BSTtester

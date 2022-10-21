@@ -131,18 +131,19 @@ public class BST {
     // Finds the node in the BST with key = element if it
     // exists and returns it; otherwise, returns null
     //======================================================
-    private Node find(Node n, int element) {
-        Node current = n;
+    private Node find(Node current, int element) {
         if (element < current.getKey()) {
             if (current.getLeftChild() != null) {
                 find(current.getLeftChild(), element);
             } else {
+		System.out.print("\nElement not found!");
                 return null;
             } // if
         } else if (element > current.getKey()) {
             if (current.getRightChild() != null) {
                 find(current.getRightChild(), element);
             } else {
+		System.out.print("\nElement not found!");
                 return null;
             } // if
         } // if
@@ -152,13 +153,12 @@ public class BST {
     //======================================================
     // Finds the inorder predecessor of predNode
     //======================================================
-    private int inorderPred(Node predNode) {
-        Node current = predNode;
-        if (current.getRightChild() != null ) {
-            return inorderPred(current.getRightChild());
-        } // while
-        return current.getKey();
-    } // inorderPred
+    private Node findMax(Node current) {
+	while (current.getRightChild() != null) {
+	    current = current.getRightChild();
+	} // while
+	return current;
+    } // findMin
 
     //======================================================
     // Calls method to recursively insert a new element
@@ -209,11 +209,10 @@ public class BST {
     // prints "Element not found!"
     //======================================================
     public void delete(int element) {
-	Node current = this.root;
-	if (find(current, element) == null) {
-	    System.out.println("Element not found!");
+	if (find(this.root, element) == null) {
+	    return;
 	} else {
-	    deleteRec(current, element);
+	    deleteRec(this.root, element);
 	    size--;
 	} // if
     } // delete
@@ -222,49 +221,30 @@ public class BST {
     // Recursively deletes the node with key = element
     // and refactors BST
     //======================================================
-    private void deleteRec(Node current, int element) {
-	if (current == null) return;
+    private Node deleteRec(Node current, int element) {
+	if (current == null) return null;
 	if (element < current.getKey()) {
-	    deleteRec(current.getLeftChild(), element);
+	    current.setLeftChild(deleteRec(current.getLeftChild(), element));
 	} else if (element > current.getKey()) {
-	    deleteRec(current.getRightChild(), element);
+	    current.setRightChild(deleteRec(current.getRightChild(), element));
 	} else {
-	    if (current.getLeftChild() == null && current.getRightChild() == null) {
-		if (current == root) {
-		    root = null;
-		} else if (current.getParent().getKey() > current.getKey()) {
-		    Node parent = current.getParent();
-		    parent.setLeftChild(current.getLeftChild());
-		} else if (current.getParent().getKey() < current.getKey()) {
-		    Node parent = current.getParent();
-		    parent.setRightChild(current.getRightChild());
-		} // if
-	    } else if (current.getLeftChild() == null) {
-		if (current == root) {
-		    root = current.getRightChild();
-		} else {
-		    current.getParent().setRightChild(current.getRightChild());
-		} // if
+	    if (current.getLeftChild() == null) {
+		return current.getRightChild();
 	    } else if (current.getRightChild() == null) {
-		if (current == root) {
-		    root = current.getLeftChild();
-		} else {
-		    current.getParent().setLeftChild(current.getLeftChild());
-		} // if
-	    } else {
-		int pred = inorderPred(current.getLeftChild());
-		current.setKey(pred);
-		deleteRec(current.getLeftChild(), pred);
-	    } // if
+		return current.getLeftChild();
+	    } //if
+	    Node min = findMax(current.getLeftChild());
+	    current.setKey(min.getKey());
+	    current.setLeftChild(deleteRec(current.getLeftChild(), min.getKey()));
 	} // if
+	return current;
     } // deleteRec
 
     //======================================================
-    // Calls recursive preorder method
+    // Calls recursive preorder method'
     //======================================================
     public void preorder() {
-        Node current = this.root;
-        this.preorderHelper(current);
+        preorderHelper(this.root);
     } // preorder
 
     //======================================================
@@ -273,17 +253,16 @@ public class BST {
     //======================================================
     private void preorderHelper(Node current) {
 	if (current == null) return;
-	System.out.print(current.key + " ");
-        preorderHelper(current.leftChild);
-        preorderHelper(current.rightChild);
+	System.out.print(current.getKey() + " ");
+        preorderHelper(current.getLeftChild());
+        preorderHelper(current.getRightChild());
     } // preorderHelper
 
     //======================================================
     // Calls recursive postorder method 
     //======================================================
     public void postorder() {
-        Node current = this.root;
-        this.postorderHelper(current);
+        postorderHelper(this.root);
     } // postorder
 
     //======================================================
@@ -292,17 +271,16 @@ public class BST {
     //======================================================
     private void postorderHelper(Node current) {
         if (current == null) return;
-        postorderHelper(current.leftChild);
-        postorderHelper(current.rightChild);
-	System.out.print(current.key + " ");
+        postorderHelper(current.getLeftChild());
+        postorderHelper(current.getRightChild());
+	System.out.print(current.getKey() + " ");
     } // postorderHelper
 
     //======================================================
     // Calls recursive inorder method
     //======================================================
     public void inorder() {
-        Node current = this.root;
-        this.inorderHelper(current);
+        inorderHelper(this.root);
     } // inorder
 
     //======================================================
@@ -310,11 +288,10 @@ public class BST {
     // prints each element
     //======================================================
     private void inorderHelper(Node current) {
-        // recursively inorder the BST
         if (current == null) return;
-        inorderHelper(current.leftChild);
-	System.out.print(current.key + " ");
-        inorderHelper(current.rightChild);
+        inorderHelper(current.getLeftChild());
+	System.out.print(current.getKey() + " ");
+        inorderHelper(current.getRightChild());
     } // inorderHelper
 
 } // BST
