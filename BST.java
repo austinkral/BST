@@ -74,7 +74,6 @@ public class BST {
 
     } // Node
 
-
     //variables that keep track of the root and the size
     private Node root;
     private int size;
@@ -146,98 +145,151 @@ public class BST {
             System.out.println("Element is already in the tree!");
         } // if
     } // insertRec
+/*
+//calls the helper method to print out the tree in the preorder traversal order
+public void delete(int element) {
+Node current = this.root;
+if (find(current, element) == null) {
+System.out.println("Element not found!");
+} else {
+deleteRec(current, element);
+size--;
+} // if
+} // delete
 
-
-    //calls the helper method to print out the tree in the preorder traversal order
-    public void delete(int element) {
-        Node current = this.root;
-        if (find(current, element) == null) {
-            System.out.println("Element not found!");
-        } else {
-            deleteRec(current, element);
-            size--;
-        } // if
-    } // delete
-
-
-
-    private Node deleteRec(Node current, int element) {
-	if (current == null) return current;
-	if (element < current.getKey()) {
-	    current.setLeftChild(deleteRec(current.getLeftChild(), element));
-	} else if (element > current.getKey()) {
-	    current.setRightChild(deleteRec(current.getRightChild(), element));
-	} else {
-	    if (current.getLeftChild() == null && current.getRightChild() == null) {
-            return null;
-	    } else if (current.getLeftChild() == null) {
-            return current.getRightChild();
-	    } else if (current.getRightChild() == null) {
-            return current.getLeftChild();
-	    } else {
-            int pred = inorderPred(current.getLeftChild());
-            current.setKey(pred);
-	        deleteRec(current.getRightChild(), pred);
-	    } // if
-	} // if
-	return current;
+private Node deleteRec(Node current, int element) {
+if (current == null) return current;
+if (element < current.getKey()) {
+current.setLeftChild(deleteRec(current.getLeftChild(), element));
+} else if (element > current.getKey()) {
+current.setRightChild(deleteRec(current.getRightChild(), element));
+} else {
+if (current.getLeftChild() == null && current.getRightChild() == null) {
+return null;
+} else if (current.getLeftChild() == null) {
+return current.getRightChild();
+} else if (current.getRightChild() == null) {
+return current.getLeftChild();
+} else {
+int pred = inorderPred(current.getLeftChild());
+current.setKey(pred);
+deleteRec(current.getRightChild(), pred);
+} // if
+} // if
+return current;
 } // deleteRec
+*/
 
->>>>>>> 62156c95ed1ca87fa1aadf9fe1a00b320de73101
-public void preorder() {
-    Node current = this.root;
-    this.preorderHelper(current);
-} // preorder
+
+    private Node deleteHelper(Node root, int element) {
+        Node t = root;
+        if (t == null) {
+            return root;
+        } else if(element < t.key) {
+            t.leftChild = (deleteHelper(t.leftChild, element));
+        } else if (element > t.key) {
+            t.rightChild = (deleteHelper(t.rightChild, element));
+        } else {
+            if(t.leftChild == null && t.rightChild == null) {
+                t.setParent(null);
+                t.key = -1;
+                return null;
+            } else if (t.leftChild == null) {
+                System.out.println(root.rightChild.key);
+                t.key = t.rightChild.key;
+                System.out.println(root.key);
+                t.rightChild.key = -1;
+                System.out.println(root.rightChild.key);
+                t.rightChild = null;
+                System.out.println(root.rightChild);
+                return t;
+            } else if (t.rightChild == null) {
+                t.key = t.leftChild.key;
+                t.leftChild.key = -1;
+                t.leftChild = null;
+            } else {
+                Integer maxValue = findMax(t.leftChild);
+                t.key = maxValue;
+                t.rightChild = (deleteHelper(t.rightChild, maxValue));
+            } //else
+        } //else
+        return root;
+    } //deleteHelper
+
+    public void delete(int element) {
+        size--;
+        deleteHelper(this.root, element);
+    } //delete
+
+    private int findMax(Node root) {
+        int temp;
+        if (root != null) {
+            temp = root.key;
+            if (root.leftChild != null) {
+                temp = root.leftChild.key;
+            } //if
+        } else {
+            return -1;
+        } //if
+        int a = Math.max(temp, findMax(root.rightChild));
+        int out = Math.max(findMax(root.leftChild),a);
+        return out;
+    } //findMax
+
+    public void preorder() {
+        Node current = this.root;
+        this.preorderHelper(current);
+    } // preorder
 
 //prints out the elements in the tree according to their order in a preorder traversal
 //node, left, right
-private void preorderHelper(Node current) {
-	if (current == null) {
-	    return;
-	} else if (current.getKey() != -1) {
-		System.out.print(current.key + " ");
-	} // if
-    preorderHelper(current.leftChild);
-    preorderHelper(current.rightChild);
-} // preorderHelper
+    private void preorderHelper(Node current) {
+        if (current == null) {
+            return;
+        } else if (current.getKey() != -1) {
+            System.out.print(current.key + " ");
+        } // if
+        preorderHelper(current.leftChild);
+        preorderHelper(current.rightChild);
+    } // preorderHelper
 
 //calls the helper method to print out the tree in the postorder traversal order
-public void postorder() {
-    Node current = this.root;
-    this.postorderHelper(current);
-} // postorder
+    public void postorder() {
+        Node current = this.root;
+        this.postorderHelper(current);
+    } // postorder
 
 //prints out the elements in the tree according to their order in a postorder traversal
 //left,right,node
-private void postorderHelper(Node current) {
-    if (current == null) {
-        return;
-    } //if
-    postorderHelper(current.leftChild);
-    postorderHelper(current.rightChild);
-    if (current.key != -1) {
-        System.out.print(current.key + " ");
-    } //if
-} // postorderHelper
+    private void postorderHelper(Node current) {
+        if (current == null) {
+            return;
+        } //if
+        postorderHelper(current.leftChild);
+        postorderHelper(current.rightChild);
+        if (current.key != -1) {
+            System.out.print(current.key + " ");
+        } //if
+    } // postorderHelper
 
 //calls the helper method to print out the tree in the inorder traversal order
-public void inorder() {
-    Node current = this.root;
-    this.inorderHelper(current);
-} // inorder
+    public void inorder() {
+        Node current = this.root;
+        this.inorderHelper(current);
+    } // inorder
 
 //prints out the elements in the tree according to their order in an inorder traversal
 //left,node,right
-private void inorderHelper(Node current) {
-    // recursively inorder the BST
-    if (current == null) {
-        return;
-    } //if
-    inorderHelper(current.leftChild);
-    if (current.key != -1) {
-        System.out.print(current.key + " ");
-    } //if
-    inorderHelper(current.rightChild);
-} // inorderHelper
+    private void inorderHelper(Node current) {
+        // recursively inorder the BST
+        if (current == null) {
+            return;
+        } //if
+        inorderHelper(current.leftChild);
+        if (current.key != -1) {
+            System.out.print(current.key + " ");
+        } //if
+        inorderHelper(current.rightChild);
+    } // inorderHelper
 
 } // BST

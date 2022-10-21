@@ -4,10 +4,10 @@ public class BSTtester {
 
         // Create new binary search tree
         BST tree = new BST();
-	BST tree2 = new BST();
+        BST tree2 = new BST();
 
-	// tree tests
-	
+        // tree tests
+
         // Test insert
         tree.insert(4);
         tree.insert(5);
@@ -40,13 +40,13 @@ public class BSTtester {
         tree.inorder();
 
         /*
-        tree.delete(200);
-        System.out.println("\nExample 4: preorder traversal after a deleting a "
-        + "leaf");
-        System.out.println("Expected:\t" + "4 2 5 9 6 8 11 10 14");
-        System.out.print("Your Tree:\t");
-        // Test preorder + delete
-        tree.preorder();
+          tree.delete(200);
+          System.out.println("\nExample 4: preorder traversal after a deleting a "
+          + "leaf");
+          System.out.println("Expected:\t" + "4 2 5 9 6 8 11 10 14");
+          System.out.print("Your Tree:\t");
+          // Test preorder + delete
+          tree.preorder();
         */
 
         System.out.println();
@@ -54,11 +54,11 @@ public class BSTtester {
         System.out.println();
         System.out.println("\nExample 5: preorder traversal after a deleting a "
         + "node with one child");
-        System.out.println("Expected:\t" + "4 2 5 9 8 11 10 14");
+        System.out.println("Expected:\t" + "4 2 1 5 9 8 11 10 14");
         System.out.print("Your Tree:\t");
         tree.preorder();
 
-
+/*
         tree.delete(9);
         System.out.println("\nExample 6: preorder traversal after a deleting a "
         + "node with two children");
@@ -72,9 +72,9 @@ public class BSTtester {
         System.out.println("Expected:\t" + "7");
         System.out.println("Your Tree:\t" + tree.size());
 
-	// tree2 tests
+        // tree2 tests
 
-	// Test insert
+        // Test insert
         tree2.insert(789);
         tree2.insert(1098);
         tree2.insert(34);
@@ -134,6 +134,7 @@ public class BSTtester {
         + "deletions");
         System.out.println("Expected:\t" + "7");
         System.out.println("Your Tree:\t" + tree2.size());
+*/
     } // main
 
 } // BSTtester
