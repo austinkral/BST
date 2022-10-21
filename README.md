@@ -4,4 +4,5 @@
    - Siddhi Chitgopkar
    - Austin Kral
 ## Instructions:
-   - Enter `javac BST.java` to compile the program
+   - Enter `javac BST.java BSTtester.java` to compile the program
+   - Enter `java BSTtester` to run the program

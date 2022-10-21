@@ -203,9 +203,7 @@ public class BST {
     // and refactors BST
     //======================================================
     private Node deleteRec(Node current, int element) {
-	if (current == null) {
-	    return null;
-	} // if
+	if (current == null) return null;
 	if (element < current.getKey()) {
 	    current.setLeftChild(deleteRec(current.getLeftChild(), element));
 	} else if (element > current.getKey()) {
