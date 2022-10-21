@@ -4,7 +4,10 @@ public class BSTtester {
 
         // Create new binary search tree
         BST tree = new BST();
+	BST tree2 = new BST();
 
+	// tree tests
+	
         // Test insert
         tree.insert(4);
         tree.insert(5);
@@ -65,6 +68,69 @@ public class BSTtester {
         + "deletions");
         System.out.println("Expected:\t" + "7");
         System.out.println("Your Tree:\t" + tree.size());
+
+	// tree2 tests
+
+	// Test insert
+        tree2.insert(789);
+        tree2.insert(1098);
+        tree2.insert(34);
+        tree2.insert(1);
+        tree2.insert(90);
+        tree2.insert(110);
+        tree2.insert(2);
+        tree2.insert(5690);
+        tree2.insert(73);
+        tree2.insert(14);
+        System.out.println("Example 1: preorder traversal");
+        System.out.println("Expected:\t" + "789 34 1 2 14 90 73 110 1098 5690");
+        System.out.print("Your Tree:\t");
+        // Test preorder
+        tree2.preorder();
+
+
+        System.out.println("\nExample 2: postorder traversal");
+        System.out.println("Expected:\t" + "14 2 1 73 110 90 34 5690 1098 789");
+        System.out.print("Your Tree:\t");
+        // Test postorder
+        tree2.postorder();
+
+
+        System.out.println("\nExample 3: inorder traversal");
+        System.out.println("Expected:\t" + "1 2 14 34 73 90 110 789 1098 5690");
+        System.out.print("Your Tree:\t");
+        // Test inorder + delete
+        tree2.inorder();
+
+        tree2.delete(110);
+        System.out.println("\nExample 4: preorder traversal after a deleting a "
+        + "leaf");
+        System.out.println("Expected:\t" + "789 34 1 2 14 90 73 1098 5690");
+        System.out.print("Your Tree2\t");
+        // Test preorder + delete
+        tree2.preorder();
+
+
+        tree2.delete(34);
+        System.out.println("\nExample 5: postorder traversal after a deleting a "
+        + "node with one child");
+        System.out.println("Expected:\t" + "2 1 73 90 14 5690 1098 789");
+        System.out.print("Your Tree:\t");
+        tree2.postorder();
+
+
+        tree2.delete(789);
+        System.out.println("\nExample 6: inorder traversal after a deleting the "
+        + "root node");
+        System.out.println("Expected:\t" + "1 2 14 73 90 1098 5690");
+        System.out.print("Your Tree:\t");
+        tree2.inorder();
+
+
+        System.out.println("\nExample 7: size of the tree after insertions and "
+        + "deletions");
+        System.out.println("Expected:\t" + "7");
+        System.out.println("Your Tree:\t" + tree2.size());
     } // main
 
 } // BSTtester

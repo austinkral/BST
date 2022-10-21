@@ -73,78 +73,95 @@ public class BST {
         return this.size;
     } // size
 
-    //finder method that finds a node based on its element in the tree and returns it
-    private Node finder (Node r, int element) {
-        if (r == null) {
-            Node newNode = new Node();
-            newNode.leftChild = null;
-            newNode.rightChild = null;
-            newNode.key = -1;
-            return newNode;
-        } //if
-        if (element < r.key) {
-            return finder(r.leftChild, element);
-        } else if (element > r.key) {
-            return finder(r.rightChild, element);
-        } else {
-            return r;
-        } //if
-    } //finder
+    private Node find(Node n, int element) {
+	Node current = n;
+	if (element < current.getKey()) {
+	    if (current.getLeftChild() != null) {
+		find(current.getLeftChild(), element);
+	    } else {
+		return null;
+	    } // if
+	} else if (element > current.getKey()) {
+	    if (current.getRightChild() != null) {
+		find(current.getRightChild(), element);
+	    } else {
+		return null;
+	    } // if
+	} // if
+	return current;
+    } // find
+    
+    private int inorderPred(Node replace) {
+	Node current = replace;
+	int pred = current.getKey();
+	while (current.getRightChild() != null ) {
+	    current = current.getRightChild();
+	    pred = current.getKey();
+	} // while
+	return pred;
+    } // inorderPred
 
     public void insert(int element) {
-        //if  the tree is empty, make the element the root
-        if (root == null) {
-            //creating the new node to be inserted
-            Node temp = new Node(element);
-            temp.leftChild = null;
-            temp.rightChild = null;
-            root = temp;
-            size++;
-            return;
-        } //if
-
-        //creating the new node to be inserted
-        Node temp = new Node(element);
-        temp.leftChild = null;
-        temp.rightChild = null;
-
-        //if element is already in tree, print message to user
-        Node found = finder(root, element);
-        if (finder(root,element).key != -1) {
-            System.out.println("Element is already in the tree!");
-            return;
-        } //if
-
-        Node temproot = root;
-        Node leaf = root;
-        while (temproot != null) {
-            leaf = temproot;
-            if (element > temproot.key) {
-                temproot = temproot.rightChild;
-            } else {
-                temproot = temproot.leftChild;
-            } //if
-        } //while
-
-        //inserting the new node as a child of the appropriate leaf
-        if (element < leaf.key) {
-            leaf.leftChild = temp;
-        } else {
-            leaf.rightChild = temp;
-        } //else
-        size++;
+	Node current = this.root;
+	if (root == null) {
+	    root = new Node(element);
+	} else {
+	    insertRec(current, element);
+	} // if
+	size++;
     } // insert
 
+    private void insertRec(Node current, int element) {
+	if (element < current.getKey()) {
+	    if (current.getLeftChild() != null) {
+		insertRec(current.getLeftChild(), element);
+	    } else {
+		current.setLeftChild(new Node(element));
+	    } // if
+	} else if (element > current.getKey()) {
+	    if (current.getRightChild() != null) {
+		insertRec(current.getRightChild(), element);
+	    } else {
+		current.setRightChild(new Node(element));
+	    } // if
+	} else {
+	    System.out.println("Element is already in the tree!");
+	} // if
+    } // insertRec
+    
     public void delete(int element) {
-        Node temp = finder(root, element);
-        if (temp.key == -1) {
-            System.out.println("Element not found!");
-            return;
-        } //if
-        temp.key = -1;
-        size--;
+	Node current = this.root;
+	if (root == null || find(current, element) == null) {
+	    System.out.println("Element not found!");
+	} else {
+	    deleteRec(current, element);
+	} // if
+	size--;
     } // delete
 
+    private void deleteRec(Node current, int element) {
+	if (element < current.getKey()) {
+	    if (current.getLeftChild() != null ) {
+		deleteRec(current.getLeftChild(), element);
+	    } // if
+	} else if (element > current.getKey()) {
+	    if (current.getLeftChild() != null) {
+		deleteRec(current.getRightChild(), element);
+	    } // if
+	} else {
+	    if (current.getLeftChild() == null && current.getRightChild() == null) {
+		current = null;
+	    } else if (current.getLeftChild() == null) {
+		current.getParent().setRightChild(current.getRightChild());
+	    } else if (current.getRightChild() == null) {
+		current.getParent().setLeftChild(current.getLeftChild());
+	    } else {
+		current.setKey(inorderPred(current));
+		deleteRec(current, inorderPred(current));
+	    } // if
+	} // if
+    } // deleteRec
+    
     public void preorder() {
         Node current = this.root;
         this.preorderHelper(current);
