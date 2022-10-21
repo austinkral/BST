@@ -167,11 +167,10 @@ public class BST {
 	Node current = this.root; 
 	if (root == null) {
 	    root = new Node(element);
-	    System.out.println("Root: " + root.getKey());
+	    size++;
 	} else {
 	    insertRec(current, element);
 	} // if
-	size++;
     } // insert
 
     //======================================================
@@ -186,8 +185,7 @@ public class BST {
 	    } else {
 		current.setLeftChild(insert);
 		insert.setParent(current);
-		System.out.println("Inserted: " + insert.getKey());
-		System.out.println("Inserted parent: " + insert.getParent().getKey());
+		size++;
 	    } // if
 	} else if (element > current.getKey()) {
 	    if (current.getRightChild() != null) {
@@ -195,8 +193,7 @@ public class BST {
 	    } else {
 		current.setRightChild(insert);
 		insert.setParent(current);
-		System.out.println("Inserted: " + insert.getKey());
-		System.out.println("Inserted parent: " + insert.getParent().getKey());
+		size++;
 	    } // if
 	} else {
 	    System.out.println("Element is already in the tree!");
@@ -253,7 +250,7 @@ public class BST {
     //======================================================
     private void preorderHelper(Node current) {
 	if (current == null) return;
-	System.out.print(current.getKey() + " ");
+	if (current != null) System.out.print(current.getKey() + " ");
         preorderHelper(current.getLeftChild());
         preorderHelper(current.getRightChild());
     } // preorderHelper
@@ -273,7 +270,7 @@ public class BST {
         if (current == null) return;
         postorderHelper(current.getLeftChild());
         postorderHelper(current.getRightChild());
-	System.out.print(current.getKey() + " ");
+	if (current != null) System.out.print(current.getKey() + " ");
     } // postorderHelper
 
     //======================================================
@@ -290,7 +287,7 @@ public class BST {
     private void inorderHelper(Node current) {
         if (current == null) return;
         inorderHelper(current.getLeftChild());
-	System.out.print(current.getKey() + " ");
+	if (current != null) System.out.print(current.getKey() + " ");
         inorderHelper(current.getRightChild());
     } // inorderHelper
 

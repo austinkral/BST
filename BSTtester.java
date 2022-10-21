@@ -41,7 +41,7 @@ public class BSTtester {
         tree.inorder();
 
 	tree.delete(200);
-	System.out.println("\nExample 4: preorder traversal after a deleting a "
+	System.out.println("\nExample 4: preorder traversal after deleting a "
 			   + "leaf");
 	System.out.println("Expected:\t" + "4 2 1 5 9 6 8 11 10 14");
 	System.out.print("Your Tree:\t");
@@ -51,22 +51,22 @@ public class BSTtester {
         System.out.println();
         tree.delete(6);
         System.out.println();
-        System.out.println("\nExample 5: preorder traversal after a deleting a "
-        + "node with one child");
+        System.out.println("\nExample 5: preorder traversal after deleting a "
+			   + "node with one child");
         System.out.println("Expected:\t" + "4 2 1 5 9 8 11 10 14");
         System.out.print("Your Tree:\t");
         tree.preorder();
 
         tree.delete(9);
-        System.out.println("\nExample 6: preorder traversal after a deleting a "
-        + "node with two children");
+        System.out.println("\nExample 6: preorder traversal after deleting a "
+			   + "node with two children");
         System.out.println("Expected:\t" + "4 2 1 5 8 11 10 14");
         System.out.print("Your Tree:\t");
         tree.preorder();
 
 
         System.out.println("\nExample 7: size of the tree after insertions and "
-        + "deletions");
+			   + "deletions");
         System.out.println("Expected:\t" + "7");
         System.out.println("Your Tree:\t" + tree.size());
 
@@ -104,8 +104,8 @@ public class BSTtester {
         tree2.inorder();
 
         tree2.delete(110);
-        System.out.println("\nExample 4: preorder traversal after a deleting a "
-        + "leaf");
+        System.out.println("\nExample 4: preorder traversal after deleting a "
+			   + "leaf");
         System.out.println("Expected:\t" + "789 34 1 2 14 90 73 1098 5690");
         System.out.print("Your Tree2\t");
         // Test preorder + delete
@@ -113,24 +113,65 @@ public class BSTtester {
 
 
         tree2.delete(34);
-        System.out.println("\nExample 5: postorder traversal after a deleting a "
-        + "node with one child");
+        System.out.println("\nExample 5: postorder traversal after deleting a "
+			   + "node with one child");
         System.out.println("Expected:\t" + "2 1 73 90 14 5690 1098 789");
         System.out.print("Your Tree:\t");
         tree2.postorder();
 
 
         tree2.delete(789);
-        System.out.println("\nExample 6: inorder traversal after a deleting the "
-        + "root node");
+        System.out.println("\nExample 6: inorder traversal after deleting the "
+			   + "root node");
         System.out.println("Expected:\t" + "1 2 14 73 90 1098 5690");
         System.out.print("Your Tree:\t");
         tree2.inorder();
 
-
-        System.out.println("\nExample 7: size of the tree after insertions and "
-        + "deletions");
-        System.out.println("Expected:\t" + "7");
+	tree2.delete(90);
+	System.out.println("\nExample 7: inorder traversal after deleting 90");
+        System.out.println("Expected:\t" + "1 2 14 73 1098 5690");
+        System.out.print("Your Tree:\t");
+        tree2.inorder();
+	
+	tree2.delete(73);
+	System.out.println("\nExample 8: inorder traversal after deleting 73");
+        System.out.println("Expected:\t" + "1 2 14 1098 5690");
+        System.out.print("Your Tree:\t");
+        tree2.inorder();
+	
+	tree2.delete(1);
+	System.out.println("\nExample 9: inorder traversal after deleting 1");
+        System.out.println("Expected:\t" + "2 14 1098 5690");
+        System.out.print("Your Tree:\t");
+        tree2.inorder();
+	
+	tree2.delete(2);
+	System.out.println("\nExample 10: inorder traversal after deleting 2");
+        System.out.println("Expected:\t" + "14 1098 5690");
+        System.out.print("Your Tree:\t");
+        tree2.inorder();
+	
+	tree2.delete(5690);
+	System.out.println("\nExample 11: inorder traversal after deleting 5690");
+        System.out.println("Expected:\t" + "14 1098");
+        System.out.print("Your Tree:\t");
+        tree2.inorder();
+	
+	tree2.delete(1098);
+	System.out.println("\nExample 12: inorder traversal after deleting 1098");
+        System.out.println("Expected:\t" + "14");
+        System.out.print("Your Tree:\t");
+        tree2.inorder();
+	
+	tree2.delete(14);
+	System.out.println("\nExample 13: inorder traversal after deleting 14");
+        System.out.println("Expected:\t" + "");
+        System.out.print("Your Tree:\t");
+        tree2.inorder();
+	
+        System.out.println("\nExample 14: size of the tree after insertions and "
+			   + "deletions");
+        System.out.println("Expected:\t" + "0");
         System.out.println("Your Tree:\t" + tree2.size());
     } // main
 
