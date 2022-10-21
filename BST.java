@@ -1,5 +1,4 @@
 public class BST {
-
     //node class
     public class Node {
 
@@ -157,18 +156,62 @@ public class BST {
         size++;
     } // insert
 
+
+
     //delete method that removes the specified element from the tree
     //if the element is not in the tree, it prints a message to the user
     public void delete(int element) {
+        //if the tree is empty, the element won't be in the tree, so nothing can be deleted
+        if (root == null) {
+            System.out.println("Element not found!");
+            return;
+        } //if
+        //find out if the element is in the tree if the tree is not empty
         Node temp = finder(root, element);
         if (temp.key == -1) {
             System.out.println("Element not found!");
             return;
         } //if
-        temp.key = -1;
+        // if the root contains the element to be deleted and does not have any children,
+        // set the key of the root to null and return
+        if (root.key == element && root.leftChild == null && root.rightChild == null) {
+            root.key = -1;
+            root = null;
+            size--;
+            return;
+        } //if
+        //if the element is in the tree and is not in the root, call deletehelper method
         size--;
+        this.deleteHelper(element, root);
     } // delete
 
+    private void deleteHelper(int element, Node root) {
+        if (root.val < element) {
+            root.right = deleteHelper(element, root.rightChild);
+        } else if (root.val > element) {
+            root.left = deleteHelper(element, root.leftChild);
+        } else {
+            if (root.rightChild != null &&  root.leftChild != null) {
+                root.key = findMin(root.rightChild);
+                root.rightChild = deleteHelper(root.key,root.rightChild);
+            } else if (root.rightChild == null && root.leftChild != null) {
+
+            } else {
+
+            } //if
+        } //if
+    } //deleteHelper
+
+    private int findMin(Node root) {
+        int out = root.key;
+        if (root != null) {
+            while(root.rightChild != null){
+                root=root.right;
+                out = root.key;
+            } //while
+        } //if
+        return out;
+    } //findMin
 
     //calls the helper method to print out the tree in the preorder traversal order
     public void preorder() {
