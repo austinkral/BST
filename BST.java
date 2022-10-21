@@ -109,14 +109,12 @@ public class BST {
 	return current;
     } // find
     
-    private int inorderPred(Node replace) {
-	Node current = replace;
-	int pred = current.getKey();
-	while (current.getRightChild() != null ) {
-	    current = current.getRightChild();
-	    pred = current.getKey();
+    private int inorderPred(Node predNode) {
+	Node current = predNode;
+	if (current.getRightChild() != null ) {
+	    return inorderPred(current.getRightChild());
 	} // while
-	return pred;
+	return current.getKey();
     } // inorderPred
 
     //insert method that inserts an element into the BST in the correct posiiton
@@ -151,35 +149,34 @@ public class BST {
     
     public void delete(int element) {
 	Node current = this.root;
-	if (root == null || find(current, element) == null) {
+	if (find(current, element) == null) {
 	    System.out.println("Element not found!");
 	} else {
 	    deleteRec(current, element);
+	    size--;
 	} // if
-	size--;
     } // delete
 
-    private void deleteRec(Node current, int element) {
+    private Node deleteRec(Node current, int element) {
+	if (current == null) return current;
 	if (element < current.getKey()) {
-	    if (current.getLeftChild() != null ) {
-		deleteRec(current.getLeftChild(), element);
-	    } // if
+	    current.setLeftChild(deleteRec(current.getLeftChild(), element));
 	} else if (element > current.getKey()) {
-	    if (current.getLeftChild() != null) {
-		deleteRec(current.getRightChild(), element);
-	    } // if
+	    current.setRightChild(deleteRec(current.getRightChild(), element));
 	} else {
 	    if (current.getLeftChild() == null && current.getRightChild() == null) {
-		current = null;
+		return null;
 	    } else if (current.getLeftChild() == null) {
-		current.getParent().setRightChild(current.getRightChild());
+		return current.getRightChild();
 	    } else if (current.getRightChild() == null) {
-		current.getParent().setLeftChild(current.getLeftChild());
+		return current.getLeftChild();
 	    } else {
-		current.setKey(inorderPred(current));
-		deleteRec(current, inorderPred(current));
+		int pred = inorderPred(current.getLeftChild());
+		current.setKey(pred);
+	        deleteRec(current.getRightChild(), pred);
 	    } // if
 	} // if
+	return current;
     } // deleteRec
     
     public void preorder() {
@@ -190,13 +187,11 @@ public class BST {
     //prints out the elements in the tree according to their order in a preorder traversal
     //node, left, right
     private void preorderHelper(Node current) {
-        // recursively preorder the BST
-        if (current == null) {
-            return;
-        } //if
-        if (current.key != -1) {
-            System.out.print(current.key + " ");
-        } //if
+	if (current == null) {
+	    return;
+	} else if (current.getKey() != -1) {
+		System.out.print(current.key + " ");
+	} // if
         preorderHelper(current.leftChild);
         preorderHelper(current.rightChild);
     } // preorderHelper
@@ -210,7 +205,6 @@ public class BST {
     //prints out the elements in the tree according to their order in a postorder traversal
     //left,right,node
     private void postorderHelper(Node current) {
-        // recursively postorder the BST
         if (current == null) {
             return;
         } //if
