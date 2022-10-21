@@ -91,196 +91,153 @@ public class BST {
         return this.size;
     } // size
 
-    //finder method that finds a node based on its element in the tree and returns it
-    //returns -1 if the element is not found
-    private Node finder (Node r, int element) {
-        if (r == null) {
-            Node newNode = new Node();
-            newNode.leftChild = null;
-            newNode.rightChild = null;
-            newNode.key = -1;
-            return newNode;
-        } //if
-        if (element < r.key) {
-            return finder(r.leftChild, element);
-        } else if (element > r.key) {
-            return finder(r.rightChild, element);
-        } else {
-            return r;
-        } //if
-    } //finder
+    private Node find(Node n, int element) {
+        Node current = n;
+        if (element < current.getKey()) {
+            if (current.getLeftChild() != null) {
+                find(current.getLeftChild(), element);
+            } else {
+                return null;
+            } // if
+        } else if (element > current.getKey()) {
+            if (current.getRightChild() != null) {
+                find(current.getRightChild(), element);
+            } else {
+                return null;
+            } // if
+        } // if
+        return current;
+    } // find
+
+    private int inorderPred(Node predNode) {
+        Node current = predNode;
+        if (current.getRightChild() != null ) {
+            return inorderPred(current.getRightChild());
+        } // while
+        return current.getKey();
+    } // inorderPred
 
     //insert method that inserts an element into the BST in the correct posiiton
     //if the element is already in the tree, it prints a message to the user
     public void insert(int element) {
-        //if  the tree is empty, make the element the root
+        Node current = this.root;
         if (root == null) {
-            //creating the new node to be inserted
-            Node temp = new Node(element);
-            temp.leftChild = null;
-            temp.rightChild = null;
-            root = temp;
-            size++;
-            return;
-        } //if
-
-        //creating the new node to be inserted
-        Node temp = new Node(element);
-        temp.leftChild = null;
-        temp.rightChild = null;
-
-        //if element is already in tree, print message to user
-        Node found = finder(root, element);
-        if (finder(root,element).key != -1) {
-            System.out.println("Element is already in the tree!");
-            return;
-        } //if
-
-        Node temproot = root;
-        Node leaf = root;
-        while (temproot != null) {
-            leaf = temproot;
-            if (element > temproot.key) {
-                temproot = temproot.rightChild;
-            } else {
-                temproot = temproot.leftChild;
-            } //if
-        } //while
-
-        //inserting the new node as a child of the appropriate leaf
-        if (element < leaf.key) {
-            leaf.leftChild = temp;
+            root = new Node(element);
         } else {
-            leaf.rightChild = temp;
-        } //else
+            insertRec(current, element);
+        } // if
         size++;
     } // insert
 
-
-
-    //delete method that removes the specified element from the tree
-    //if the element is not in the tree, it prints a message to the user
-    public void delete(int element) {
-        //if the tree is empty, the element won't be in the tree, so nothing can be deleted
-        if (root == null) {
-            System.out.println("Element not found!");
-            return;
-        } //if
-        //find out if the element is in the tree if the tree is not empty
-        Node temp = finder(root, element);
-        if (temp.key == -1) {
-            System.out.println("Element not found!");
-            return;
-        } //if
-        // if the root contains the element to be deleted and does not have any children,
-        // set the key of the root to null and return
-        if (root.key == element && root.leftChild == null && root.rightChild == null) {
-            root.key = -1;
-            root = null;
-            size--;
-            return;
-        } //if
-        //if the element is in the tree and is not in the root, call deletehelper method
-        size--;
-        root = this.deleteHelper(element, root);
-    } // delete
-
-    private Node deleteHelper(int element, Node root) {
-        if (root.key < element) {
-            root.rightChild = deleteHelper(element, root.rightChild);
-        } else if (root.key > element) {
-            root.leftChild = deleteHelper(element, root.leftChild);
-        } else {
-            if (root.rightChild != null &&  root.leftChild != null) {
-                root.key = findMax(root.leftChild);
-                root.rightChild = deleteHelper(root.key,root.rightChild);
-            } else if (root.rightChild == null && root.leftChild != null) {
-                System.out.println(root.leftChild.key);
-                System.out.println("a");
-                root.getParent().leftChild = root.leftChild;
-            } else if (root.rightChild != null && root.leftChild == null) {
-                System.out.println(root.rightChild.key);
-                System.out.println(root.getParent());
-                root.getParent().rightChild = root.rightChild;
+    private void insertRec(Node current, int element) {
+        if (element < current.getKey()) {
+            if (current.getLeftChild() != null) {
+                insertRec(current.getLeftChild(), element);
             } else {
-                root.key = -1;
-            } //else
-        } //if
-        return root;
-    } //deleteHelper
-
-    private int findMax(Node root) {
-        int temp = root.key;
-        if (root != null) {
-            if (root.leftChild != null) {
-                temp = root.leftChild.key;
-            } //if
+                current.setLeftChild(new Node(element));
+            } // if
+        } else if (element > current.getKey()) {
+            if (current.getRightChild() != null) {
+                insertRec(current.getRightChild(), element);
+            } else {
+                current.setRightChild(new Node(element));
+            } // if
         } else {
-            return root.key;
-        } //if
-        int a = Math.max(temp, findMax(root.rightChild));
-        int out = Math.max(findMax(root.leftChild), a);
-        return out;
-    } //findMin
+            System.out.println("Element is already in the tree!");
+        } // if
+    } // insertRec
+
 
     //calls the helper method to print out the tree in the preorder traversal order
-    public void preorder() {
+    public void delete(int element) {
         Node current = this.root;
-        this.preorderHelper(current);
-    } // preorder
+        if (find(current, element) == null) {
+            System.out.println("Element not found!");
+        } else {
+            deleteRec(current, element);
+            size--;
+        } // if
+    } // delete
 
-    //prints out the elements in the tree according to their order in a preorder traversal
-    //node, left, right
-    private void preorderHelper(Node current) {
-        // recursively preorder the BST
-        if (current == null) {
-            return;
-        } //if
-        if (current.key != -1) {
-            System.out.print(current.key + " ");
-        } //if
-        preorderHelper(current.leftChild);
-        preorderHelper(current.rightChild);
-    } // preorderHelper
 
-    //calls the helper method to print out the tree in the postorder traversal order
-    public void postorder() {
-        Node current = this.root;
-        this.postorderHelper(current);
-    } // postorder
 
-    //prints out the elements in the tree according to their order in a postorder traversal
-    //left,right,node
-    private void postorderHelper(Node current) {
-        // recursively postorder the BST
-        if (current == null) {
-            return;
-        } //if
-        postorderHelper(current.leftChild);
-        postorderHelper(current.rightChild);
-        if (current.key != -1) {
-            System.out.print(current.key + " ");
-        } //if
-    } // postorderHelper
+    private Node deleteRec(Node current, int element) {
+	if (current == null) return current;
+	if (element < current.getKey()) {
+	    current.setLeftChild(deleteRec(current.getLeftChild(), element));
+	} else if (element > current.getKey()) {
+	    current.setRightChild(deleteRec(current.getRightChild(), element));
+	} else {
+	    if (current.getLeftChild() == null && current.getRightChild() == null) {
+            return null;
+	    } else if (current.getLeftChild() == null) {
+            return current.getRightChild();
+	    } else if (current.getRightChild() == null) {
+            return current.getLeftChild();
+	    } else {
+            int pred = inorderPred(current.getLeftChild());
+            current.setKey(pred);
+	        deleteRec(current.getRightChild(), pred);
+	    } // if
+	} // if
+	return current;
+} // deleteRec
 
-    //calls the helper method to print out the tree in the inorder traversal order
-    public void inorder() {
-        Node current = this.root;
-        this.inorderHelper(current);
-    } // inorder
+>>>>>>> 62156c95ed1ca87fa1aadf9fe1a00b320de73101
+public void preorder() {
+    Node current = this.root;
+    this.preorderHelper(current);
+} // preorder
 
-    //prints out the elements in the tree according to their order in an inorder traversal
-    //left,node,right
-    private void inorderHelper(Node current) {
-        // recursively inorder the BST
-        if (current == null) {
-            return;
-        } //if
-        inorderHelper(current.leftChild);
-        if (current.key != -1) {
-            System.out.print(current.key + " ");
-        } //if
-        inorderHelper(current.rightChild);
-    } // inorderHelper
+//prints out the elements in the tree according to their order in a preorder traversal
+//node, left, right
+private void preorderHelper(Node current) {
+	if (current == null) {
+	    return;
+	} else if (current.getKey() != -1) {
+		System.out.print(current.key + " ");
+	} // if
+    preorderHelper(current.leftChild);
+    preorderHelper(current.rightChild);
+} // preorderHelper
+
+//calls the helper method to print out the tree in the postorder traversal order
+public void postorder() {
+    Node current = this.root;
+    this.postorderHelper(current);
+} // postorder
+
+//prints out the elements in the tree according to their order in a postorder traversal
+//left,right,node
+private void postorderHelper(Node current) {
+    if (current == null) {
+        return;
+    } //if
+    postorderHelper(current.leftChild);
+    postorderHelper(current.rightChild);
+    if (current.key != -1) {
+        System.out.print(current.key + " ");
+    } //if
+} // postorderHelper
+
+//calls the helper method to print out the tree in the inorder traversal order
+public void inorder() {
+    Node current = this.root;
+    this.inorderHelper(current);
+} // inorder
+
+//prints out the elements in the tree according to their order in an inorder traversal
+//left,node,right
+private void inorderHelper(Node current) {
+    // recursively inorder the BST
+    if (current == null) {
+        return;
+    } //if
+    inorderHelper(current.leftChild);
+    if (current.key != -1) {
+        System.out.print(current.key + " ");
+    } //if
+    inorderHelper(current.rightChild);
+} // inorderHelper
 
 } // BST
